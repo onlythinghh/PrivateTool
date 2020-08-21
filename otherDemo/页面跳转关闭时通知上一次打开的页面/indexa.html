@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div>a页面打开b页面，b页面正常关闭时a页面收到通知</div>
+		<div>A页面</div>
+		<button onclick="toB()">点击打开b页面</button>
+		<script>
+			window.name="AA"
+			function toB(){
+				window.open("indexb.html", "BB")
+			}
+			// 通过监听hashchange时间判断b页面是否关闭
+			window.addEventListener("hashchange", function (){
+				console.log(window.location)
+				alert(window.location.hash)
+			}, false)
+		</script>
+	</body>
+</html>

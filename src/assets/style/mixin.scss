@@ -1,0 +1,16 @@
+//定位上下左右居中
+@mixin center {  
+	position: absolute;
+	top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+/* 375设计稿 */
+@function pxToRem($px) {
+  @return $px/12+rem;
+}
+
+/* 750设计稿 */
+@function pxToRem2($px) {
+  @return $px/12/2+rem;
+}

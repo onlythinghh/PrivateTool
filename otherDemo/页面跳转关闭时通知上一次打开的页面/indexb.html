@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div>B页面</div>
+		<script>
+			window.onbeforeunload = function (e) {
+            window.open('indexa.html#close2=11', "AA") // url 挂参 跳回到已打开的 A 页面
+            return '确定离开此页吗？';
+        }
+		</script>
+	</body>
+</html>
