@@ -100,6 +100,42 @@ const thousandth =(str) => {
     return false
   }
 }
+/**
+ * 
+ * @param {*} date 日期 （时间戳要先转换成原始的日期格式）
+ * @param {*} fmt 日期格式
+ * exp:
+ * let time = new Date(1598410156000)
+ * formatDate(time)
+ */
+const formatDate = (date, fmt) => {
+  // 替换年份
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(
+      RegExp.$1,
+      (date.getFullYear() + "").substr(4 - RegExp.$1.length)
+    )
+  }
+  let o = {
+    "M+": date.getMonth() + 1,
+    "d+": date.getDate(),
+    "h+": date.getHours(),
+    "m+": date.getMinutes(),
+    "s+": date.getSeconds()
+  }
+  // 替换日期
+  for (let k in o) {
+    if (new RegExp(`(${k})`).test(fmt)) {
+      let str = o[k] + ""
+      fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? str : padLeftZero(str))
+    }
+  }
+  return fmt
+}
+
+const  padLeftZero = (str) => {
+  return ("00" + str).substr(str.length)
+}
 export {
   AjaxData,
   Regular,
@@ -108,5 +144,6 @@ export {
   sleep,
   _Throttle,
   _Debounce,
-  thousandth
+  thousandth,
+  formatDate
 }
