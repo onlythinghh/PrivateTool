@@ -17,6 +17,7 @@ import slidePanel from '@/components/slidePanel/index'
 import debounce from '@/components/debounce/index'
 import Unpopular from '@/components/Unpopular/index'
 import vuexTest from '@/components/vuexTest/index'
+import ruleTest from '@/components/ruleTest/index'
 Vue.use(Router)
 
 export default new Router({
@@ -102,6 +103,10 @@ export default new Router({
       meta:{
         needLogin: true
       }
+    },
+    {
+      path: '/ruleTest',
+      component: ruleTest,
     }
   ]
 })

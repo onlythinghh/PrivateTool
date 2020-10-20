@@ -38,6 +38,9 @@
             <li>
               <router-link to="/Unpopular">组件内路由守卫</router-link>
             </li>
+            <li>
+              <router-link to="/ruleTest">规则检验测试</router-link>
+            </li>
         </ul>
     </div>
 </template>

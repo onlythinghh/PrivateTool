@@ -1,7 +1,7 @@
 <template>
     <transition name="fade">
         <div class="Toast-box" :class="customClass" v-if="visible">
-            <div class="toast">{{message}}{{customClass}}</div>
+            <div class="toast">{{message}}</div>
         </div>
     </transition>
 </template>

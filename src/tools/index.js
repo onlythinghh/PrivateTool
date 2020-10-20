@@ -136,6 +136,19 @@ const formatDate = (date, fmt) => {
 const  padLeftZero = (str) => {
   return ("00" + str).substr(str.length)
 }
+
+// 检测是否 http:// 或者 https:// 开头
+const checkHttp =(val) => {
+  let str = val.toString()
+  if (!str) return false
+  let Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+  let strExp = new RegExp(Expression);
+  if(strExp.test(str)){
+    return true
+  } else {
+    return false
+  }
+}
 export {
   AjaxData,
   Regular,
@@ -145,5 +158,6 @@ export {
   _Throttle,
   _Debounce,
   thousandth,
-  formatDate
+  formatDate,
+  checkHttp
 }
