@@ -78,6 +78,15 @@ export default Validator;
     ])
 
     let errorMsg = validator.start();
+
+    // 使用全局方法：
+    // 1.在mian.js文件注册全局方法；
+    // 2.通过定义的this.$_validator 调用方法；
+    // this.$_validator.add(this.name, [
+    //   {strategy: 'isNonEmpty',errorMsg: '名字不能为空'}
+    // ])
+    // let errorMsg = this.$_validator.start();
+
     return errorMsg;
   }
   let errorMsg = validatorfn();

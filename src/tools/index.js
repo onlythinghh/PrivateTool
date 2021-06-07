@@ -66,13 +66,14 @@ const _Throttle = (fn, time) => {
   }
 }
 /**
- * 防抖
+ * 防抖 input事件
+ * 事件高频触发时n秒之后才会执行一次，就是说事件n秒之内没有再触发了才会执行一次，如果n秒内再次触发则重新计时
  * @param {*} fn 需要执行的函数
  * @param {*} wait 执行时间间隔
  */
 const _Debounce = (fn, wait) => {
-  const delay = wait || 300
-  let timer
+  const delay = wait || 500
+  let timer = null
   return function () {
     const _This = this
     const args = arguments
@@ -149,6 +150,37 @@ const checkHttp =(val) => {
     return false
   }
 }
+// 获取链接后面全部参数，返回一个json exp: let arr = getUrlData()
+const getUrlData = () => {
+  // let url = 'https://www.ule.com?aa=1&bb=22&cc=33&dd=44&ee=e5555'
+  let url = window.location.href
+  if (url.indexOf('?') != -1) {
+    let Arr = url.split('?')[1]
+    let str = Arr.split('&')
+    let rest = {}
+    for(let i=0; i<str.length; i++) {
+      rest[str[i].split('=')[0]] = decodeURI(str[i].split('=')[1])
+    }
+    return rest
+  } else {
+    return {}
+  }
+}
+// 获取链接后面指定的参数
+const QueryUrlString = (name) => {
+  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || ''
+}
+
+/** 类型判断
+ * isType('String', '123123')
+ * @param {string} type 需要校验的类型
+ * @param {*} obj 需要校验的数据
+ * @returns {boolean} true / false 返回一个布尔值 
+ */
+const isType = (type, obj) => {
+  return Object.prototype.toString.call(obj) === `[object ${type}]`
+}
+
 export {
   AjaxData,
   Regular,
@@ -159,5 +191,8 @@ export {
   _Debounce,
   thousandth,
   formatDate,
-  checkHttp
+  checkHttp,
+  getUrlData,
+  QueryUrlString,
+  isType,
 }

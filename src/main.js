@@ -8,6 +8,7 @@ import store from './store/index'
 import Mint from 'mint-ui'
 import { Loadmore, InfiniteScroll, Spinner  } from 'mint-ui';
 import myui from './components/myui' // 自定义插件
+// import Validator from './tools/validator'
 import  'mint-ui/lib/style.css'
 import './tools/iscroll-lite'
 import './tools/flexible'
@@ -25,6 +26,9 @@ Vue.use(laztLoad, {
 })
 Vue.use(myui)
 
+// 注册校验规则
+// const validator =new Validator()
+// Vue.prototype.$_validator =  validator
 // 注册全局过滤器
 for(let key in vfilter) {
   Vue.filter(key, vfilter[key])

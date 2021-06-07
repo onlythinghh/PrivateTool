@@ -41,6 +41,10 @@
             <li>
               <router-link to="/ruleTest">规则检验测试</router-link>
             </li>
+            <li>
+              <router-link to="/hightFun">高阶函数</router-link>
+            </li>
+            <li @click="testClick"><h3 id="h">{{msg}}</h3></li>
         </ul>
     </div>
 </template>
@@ -48,9 +52,23 @@
 export default {
     data () {
         return {
-
+          msg: '123'
         }
     },
+    methods:{
+        testClick:function() {
+            this.msg = '456'
+            this.$nextTick(function(){
+                let dom = document.getElementById('h').innerText
+                console.log('inntest:', dom)
+                if(dom == '123'){
+                    console.log("文本data被修改后dom内容没立即更新");
+                } else {
+                    console.log("文本data被修改后dom内容被马上更新了");
+                }
+            })
+        }
+    }
     
 }
 </script>
