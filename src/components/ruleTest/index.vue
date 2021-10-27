@@ -7,11 +7,13 @@
     <div @click="getFlatten">数组扁平化</div>
     <div @click="unique">数组去重（查看log）</div>
     <div><input type="text" @input="testDebounce"></input>节流</div>
+    <div @click="getPromise(true)">手写promise测试true</div>
+    <div @click="getPromise(false)">手写promise测试false</div>
   </div>
 </template>
 <script>
 import Validator from '../../tools/validator'
-import { isType, accMul } from '../../tools/index'
+import { isType, accMul, WPromise } from '../../tools/index'
 export default {
   data () {
     return {
@@ -103,6 +105,8 @@ export default {
       let tmp3 = Array.from(new Set(arr)) // 通过set()对数组去重，结果返回set对象，再通过from()方法将set对象转换成数组
       console.log('去重：', tmp1, tmp2, tmp3)
     },
+
+    // 节流
     debounce(func, wait) {
       let timeout;
       let last
@@ -132,8 +136,44 @@ export default {
     },
     testlog() {
       return 123
-      console.log('节流打印')
-    }
+      // console.log('节流打印')
+    },
+    getPromise(val){
+      // this.testPromise(val).then((res) => {
+      //   console.log('then:', res)
+      // })
+      this.fetchData().then((data) => {
+          // after 1000ms
+          console.log('willem:',data); // willem
+          return 'wei';
+      }, (err) => {
+        console.log('err',err)
+      }).then((data2) => {
+          console.log('wei:', data2); // wei
+      })
+    },
+    testPromise(sucss){
+      console.log('1111')
+      return new WPromise((resolve, reject) => {
+        setTimeout(() => {
+          if(sucss) {
+            reject('willem');
+          } else {
+            reject('失败')
+          }
+        }, 1000);
+      })
+    },
+
+    fetchData() {
+    return new WPromise((resolve, reject) => {
+        setTimeout(() => {
+            reject('willemss');
+        }, 1000);
+    });
+},
+
+
   }
 }
 </script>

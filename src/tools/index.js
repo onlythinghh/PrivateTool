@@ -12,7 +12,7 @@ const AjaxData = (params) => {
 const Regular = {}
 // 手机号，验证码，密码， 金额, 身份证
 const test = {
-  phone: () => /^1\d{10}$/,
+  phone: () => /^1[345678]\d{9}$/,
   code: () => /^\d{6}$/,
   password: () => /^[0-9a-zA-Z~!@#$%^&*_=+-.{}<>? [,]{6,20}$/,
   money: () => /^([1-9]\d{0,9}|0)([.]?|(\.\d{1,2})?)$/,
@@ -181,6 +181,60 @@ const isType = (type, obj) => {
   return Object.prototype.toString.call(obj) === `[object ${type}]`
 }
 
+// 手写Promise
+class WPromise {
+  static pending = 'pending' // 初始状态
+  static fulfilled = 'fulfilled' // 成功状态
+  static rejected = 'rejected' // 失败状态
+  constructor(executor){
+    this.status = WPromise.pending // 初始化状态为pending
+    this.value = undefined // 存储 this._resolve 成功的返回值
+    this.reason = undefined // 存储 this._reject 失败的返回值
+    this.callbacks = []
+    
+    executor(this._resolve.bind(this), this._reject.bind(this))
+  }
+
+  then(onFulfilled, onRejected) {
+    return new WPromise((nextResilve, nextReject) => {
+      this.callbacks.push({nextResilve, nextReject, onFulfilled, onRejected})
+    })
+    
+  }
+
+  _resolve(value) {
+    
+    this.value = value
+    this.status = WPromise.fulfilled // 将状态设置为成功
+    this.callbacks.forEach((cb) => this._handler(cb))
+  }
+
+  _reject(value) {
+    this.reason = value
+    this.status = WPromise.rejected // 将状态设置为失败
+    this.callbacks.forEach((cb) => this._handler(cb))
+  }
+
+  _handler(callback) {
+    const {nextResilve, nextReject, onFulfilled, onRejected} = callback
+    if(this.pending === WPromise.pending){
+      this.callbacks.push(callback)
+      return
+    }
+    if(this.status === WPromise.fulfilled) {
+      const nextValue = onFulfilled ? onFulfilled(this.value) : undefined
+      nextResilve(nextValue)
+      return
+    }
+    if(this.status === WPromise.rejected) {
+      console.log('99999', onRejected)
+      const nextReason = onRejected ? onRejected(this.value) : undefined
+      nextReject(nextReason)
+    }
+  }
+
+}
+
 export {
   AjaxData,
   Regular,
@@ -195,4 +249,5 @@ export {
   getUrlData,
   QueryUrlString,
   isType,
+  WPromise
 }
