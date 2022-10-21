@@ -16,7 +16,7 @@ import vfilter from './tools/filter'
 Vue.component(Loadmore.name, Loadmore);
 Vue.component(Spinner .name, Spinner )
 Vue.use(InfiniteScroll);
-
+Vue.use(require('vue-faker'), { locale: 'en_GB' });
 Vue.use(laztLoad, {
   preLoad: 1.2,
   // loading: './assets/img/loading.gif',

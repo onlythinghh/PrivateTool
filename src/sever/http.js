@@ -9,7 +9,7 @@ const AjaxData = (params) => {
     for (let i in params) array.push(i + '=' + params[i]);
     return array.join('&');
 }
-const jsonp = (url, data, obj) => {
+const jsonp = (url, data = {}, obj) => {
     var datas = AjaxData(data)
     getjsonp(url + encodeURI(datas), {
         jsonpCallback: data.jsonCallback || 'jsonpCallback',

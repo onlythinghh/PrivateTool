@@ -20,6 +20,7 @@
       <p>数据响应：{{txt2}}</p>
     </div>
     <br>
+    <debounce2 />
     <div class="tips">
       <h4>函数防抖（debounce）</h4>
       <p>解释：当持续触发某事件时，一定时间间隔内没有再触发事件时，事件处理函数才会执行一次，如果设定的时间间隔到来之前，又一次触发了事件，就重新开始延时。</p>
@@ -39,7 +40,11 @@
 </template>
 <script>
 import { sleep, _Throttle, _Debounce } from "../../tools/index";
+import debounce2 from './debounce2.vue'
 export default {
+  components: {
+    debounce2
+  },
   data() {
     return {
       txt0: "0",

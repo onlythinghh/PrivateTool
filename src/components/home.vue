@@ -44,6 +44,9 @@
             <li>
               <router-link to="/hightFun">高阶函数</router-link>
             </li>
+            <li>
+                <router-link to="/virtualList">虚拟列表</router-link>
+            </li>
             <li @click="testClick"><h3 id="h">{{msg}}</h3></li>
         </ul>
     </div>

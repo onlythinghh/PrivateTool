@@ -1,3 +1,4 @@
+import {jsonp} from "../sever/http"
 // AjaxData 数据转换
 // let pars = { aaa:'zhangsan', bbb: 'lisi', ccc: 'wangwu'}
 // let arr = AjaxData(pars); // aaa=zhangsan&bbb=lisi&ccc=wangwu
@@ -65,6 +66,83 @@ const _Throttle = (fn, time) => {
     }
   }
 }
+/**
+ *  函数节流2
+ *  当持续触发事件时，有规律的每隔一个时间间隔执行一次事件处理函数
+ * @param {*} fn  延时调用的函数
+ * @param {*} time  延迟多长时间
+ * 
+ * 防抖和节流都可以用于 mousemove、scroll、resize、input等事件，
+ * 他们的区别在于防抖只会在连续的事件周期结束时执行一次，而节流会在事件周期内按间隔时间有规律的执行多次。
+ * 跟上面的区别在于，事件触发时第一时间不会执行，等过了n秒后才开始执行
+ */
+const _throttle2 = (func, wait) => {
+  let timeout;
+  return function () {
+    let context = this;
+    let args = arguments;
+
+    if (!timeout) {
+      timeout = setTimeout(function () {
+        timeout = null;
+        func.apply(context, args);
+      }, wait);
+    }
+  };
+}
+/** 批量请求函数
+ * const allRequest = [
+ * "https://dog-facts-api.herokuapp.com/api/v1/resources/dogs?index=1",
+ * "https://dog-facts-api.herokuapp.com/api/v1/resources/dogs?index=2",
+ * "https://dog-facts-api.herokuapp.com/api/v1/resources/dogs?index=3"
+ * ];
+ * sendRequests(allRequest, 2,(res) => {console.log(res)})
+ * @param {Array} reqs  批量请求的接口数组
+ * @param {Number} max  最大并发量
+ * @param {function} callback 回调函数(返回请求接口)
+*/
+const sendRequests = (reqs, max, callback = () => {}) => {
+  console.log('reqs',reqs.length)
+  let awitList = []
+  let currentNum = 0
+  let numReqDone = 0
+  // 创建 请求数据等长的返回信息数组
+  let results = new Array(reqs.length).fill(false);
+
+  const init = () => {
+    reqs.forEach((ele, index) => {
+      request(ele, index)
+    })
+  }
+  const request = async(ele, index) => {
+    if(currentNum >= max) {
+      await new Promise(result => awitList.push(result))
+    }
+    reqHandler(ele, index)
+  }
+  const reqHandler = async(ele, index) => {
+    currentNum++
+    try {
+      // jsonp 请求接口拿到返回信息
+      const result = await jsonp(ele)
+      results[index] = result
+    } catch (err) {
+      results[index] = err
+    } finally {
+      currentNum--
+      numReqDone++
+      if(awitList.length) {
+        awitList[0]()
+        awitList.shift()
+      }
+      if(numReqDone === max) {
+        callback(results)
+      }
+    }
+  }
+  init()
+}
+
 /**
  * 防抖 input事件
  * 事件高频触发时n秒之后才会执行一次，就是说事件n秒之内没有再触发了才会执行一次，如果n秒内再次触发则重新计时
@@ -243,6 +321,8 @@ export {
   sleep,
   _Throttle,
   _Debounce,
+  _throttle2,
+  sendRequests,
   thousandth,
   formatDate,
   checkHttp,

@@ -19,6 +19,7 @@ import Unpopular from '@/components/Unpopular/index'
 import vuexTest from '@/components/vuexTest/index'
 import ruleTest from '@/components/ruleTest/index'
 import hightFun from '@/components/ruleTest/hightFun'
+import virtualList from '@/components/virtualList/index'
 Vue.use(Router)
 
 export default new Router({
@@ -53,6 +54,7 @@ export default new Router({
     { path: '/vuexTest', component: vuexTest, meta:{ needLogin: true } },
     { path: '/ruleTest', component: ruleTest, },
     { path: '/hightFun', component: hightFun, },
+    { path: '/virtualList', component: virtualList }
     
   ]
 })
